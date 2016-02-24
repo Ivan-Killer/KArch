@@ -1,0 +1,19 @@
+﻿http://www.tecmint.com/install-sublime-text-editor-in-linux/
+https://download.sublimetext.com/sublime_text_3_build_3103_x64.tar.bz2
+https://download.sublimetext.com/sublime_text_3_build_3103_x32.tar.bz2
+
+On 32-Bit Systems
+# cd ~
+# wget http://c758482.r82.cf2.rackcdn.com/Sublime\ Text\ 2.0.2.tar.bz2
+# tar vxjf Sublime\ Text\ 2.0.2.tar.bz2
+
+On 64-Bit Systems
+# cd ~
+# wget http://c758482.r82.cf2.rackcdn.com/Sublime\ Text\ 2.0.2\ x64.tar.bz2
+# tar vxjf Sublime\ Text\ 2.0.2\ x64.tar.bz2
+Once unpacked, you will get a directory called “Sublime Text 2″, inside this directory you will see a list files that required by Sublime Text to run. For security reason, we move this folder under “/opt” location.
+
+# sudo mv Sublime\ Text\ 2 /opt/
+Next create a symbolic link to call “Sublime Text” from the command line as “sublime”. To do, create a symbolic link under “/usr/bin” as shown below.
+
+# sudo ln -s /opt/Sublime\ Text\ 2/sublime_text /usr/bin/sublime
