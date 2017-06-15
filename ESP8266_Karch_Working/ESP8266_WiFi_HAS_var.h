@@ -1,17 +1,17 @@
-char ssid[] = "Electronic Net";
-char pass[] = "qwerty951-j";
+char ssid[] = "elsys-cab36";
+char pass[] = "elsys-bg.org";
 
 unsigned int UDPPort_listen = 20200;      // local port to listen on
 unsigned int UDPPort_server = 20200;      // remote port to send to
 char packetBuffer[255]; //buffer to hold incoming packet
 
-IPAddress HAS_ip(192, 168, 0, 125); // IP address of HAS
+IPAddress HAS_ip(192, 168, 36, 255); // IP address of HAS
 IPAddress broadcast_ip(255, 255, 255, 255); // initial IP address UDP reply sender //95.42.35.63
 IPAddress SubnetMask(255, 255, 255, 0);
 IPAddress Local_IP(0, 0, 0, 0);
 IPAddress remote_ip(0, 0, 0, 0);
-IPAddress staticIP(192, 168, 0, 123);
-IPAddress gateway(192, 168, 0, 1);
+IPAddress staticIP(192, 168, 36, 188);
+IPAddress gateway(192, 168, 36, 1);
 IPAddress subnet(255, 255, 255, 0);
 
 char Hello[] = "###H;###"; // Hello cmd
@@ -25,6 +25,6 @@ int HAS_ip_configured = 0;
 int HAS_init_successful = 0;
 
 int packetSize = 0;
-unsigned long cmd_delay = 50; //1000;
+unsigned long cmd_delay = 1000;
 int udp_state = 0;
 long rssi = 0;

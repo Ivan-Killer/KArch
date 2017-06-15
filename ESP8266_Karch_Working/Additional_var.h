@@ -4,7 +4,7 @@ long unsigned int lastTime_fadeTimer = 0;
 long unsigned int interval_fadeTimer = 20 * 1000;
 char buf_1[4], buf_2[4];
 uint32_t dark_threshold = 10000;
-byte op_mode = 1; // mode of operation = Manual, Automatic with Server Connection, Autonomous Automatic
+byte op_mode = 0; // mode of operation = Manual, Automatic with Server Connection, Autonomous Automatic
 
 int lastState = 0;
 int state = 0;

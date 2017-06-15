@@ -28,31 +28,21 @@ void setup() {
   digitalWrite(16, LOW);
 
   Serial.begin(9600);      // start debug serial
-  //stop_serial_debug_info(); // doesn't stop serial debug - does nothing ???
   wifi_connect();           // connect to wifi with debug info
   light_init(); // Enable dimming - Dimming has some flicker
   yield();
   Wire.begin(); // Wire.begin([SDA], [SCL]); // esp8266 I2C is software so should work
   I2C_probe();
   Module_to_HAS_init();     // initialize connection with HAS and declare variables
-  //yield();
-  ok = 0; // allow execution of the slow code
+  ok = 1; // allow execution of the slow code
+  op_mode = 0; // 1-auto 0-server
 }
 
 void loop() {
-  // code that runs very fast
-  //light_fade(); // doesn't turn on the lamp - only changes dim to create fading effect
-  packet_read(); yield();
-  //power_ctrl(); yield();
-
-  // code that runs slow
-  if ( ok && (micros() - lastTime_slowCode > interval_slowCode) ) {
-    lastTime_slowCode = micros();
-    send_udp(HAS_ip, UDPPort_server, Read_cmd);
-    power_ctrl();
-    yield();
-    read_lux(0);
-    send_lux(HAS_ip, UDPPort_server);
-    Lux_Level_Check(mLux_value_1, mLux_value_2, dark_threshold, 14);
+  switch(op_mode) {
+    case 0: server_mode(); break;
+    case 1: autonomous_mode(); break;
+    case 2: manual_mode(); break;
+    default: break;
   }
 }

@@ -24,14 +24,18 @@ void power_ctrl() {
     lastState = state;
     if (state == 1) {
       Serial.println("Power control - Automatic Lights - Lights On - pin 14 high");
+      if(op_mode == 1) dim = 255;
+      else if(op_mode == 0) dim = dimming;
     }
     if (state == 0) {
       Serial.println("Power control - Automatic Lights - Lights Off - pin 14 low");
+      if(op_mode == 1) dim = 60;
+      else if(op_mode == 0) dim = dimming;
     }
     Serial.println("HAS Lights - State Changed - pin 16 500ms pulse");
-    //digitalWrite(16, HIGH);
+    digitalWrite(16, HIGH);
     delay(200);
-    //digitalWrite(16, LOW);
+    digitalWrite(16, LOW);
   }
 }
 
@@ -72,8 +76,35 @@ void light_init() {
 }
 
 void stop_serial_debug_info() {
+  uart_set_debug(uart_set_debug());
   //uart_set_debug(UART_NO); // still doesn't work
   //Serial.setDebugOutput(1); //set some var ?
   //Serial.setDebugOutput(0); //disable serial debug info but doesn't works disabling debug info
   delay(10);
+}
+
+void server_mode() {
+  // code that runs very fast
+  //light_fade(); // doesn't turn on the lamp - only changes dim to create fading effect
+  packet_read(); yield();
+  //power_ctrl(); yield();
+
+  // code that runs slow
+  if ( ok && (micros() - lastTime_slowCode > interval_slowCode) ) {
+    lastTime_slowCode = micros();
+    send_udp(HAS_ip, UDPPort_server, Read_cmd);
+    power_ctrl();
+    yield();
+    read_lux(1);
+    send_lux(HAS_ip, UDPPort_server);
+    Lux_Level_Check(mLux_value_1, mLux_value_2, dark_threshold, 14);
+  }
+}
+
+void autonomous_mode() {
+
+}
+
+void manual_mode() {
+  
 }
